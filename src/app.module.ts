@@ -6,6 +6,7 @@ import { OpenAiModule } from './modules/open-ai/open-ai.module';
 import { OutputParserService } from './modules/output-parser/output-parser.service';
 import { OutputParserModule } from './modules/output-parser/output-parser.module';
 import { AiToolsModule } from './modules/ai-tools/ai-tools.module';
+import { join } from 'path';
 @Module({
   imports: [
     ConfigModule.forRoot(),

@@ -13,7 +13,7 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'frontend/dist/assets/'), {
     prefix: '/assets/',
   });
-  app.setGlobalPrefix('api/v1');
+  // app.setGlobalPrefix('api/v1');
   const config = new DocumentBuilder()
     .setTitle('Ai')
     .setDescription('Ai description')
