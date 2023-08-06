@@ -13,7 +13,7 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'frontend/dist/assets/'), {
     prefix: '/assets/',
   });
-
+  app.setGlobalPrefix('api/v1');
   const config = new DocumentBuilder()
     .setTitle('Ai')
     .setDescription('Ai description')
@@ -21,7 +21,8 @@ async function bootstrap() {
     .addTag('openai')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+
+  SwaggerModule.setup('swagger', app, document);
 
   app.useGlobalPipes(new ValidationPipe());
 

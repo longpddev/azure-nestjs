@@ -1,1 +1,1 @@
-git pull;yarn; yarn build; pm2 delete 0; pm2 start "yarn start:dev"
+pm2 delete 0; git pull;yarn; yarn build; pm2 start "yarn start:dev"
