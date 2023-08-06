@@ -5,6 +5,7 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "workspaces": ["frontend"],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
