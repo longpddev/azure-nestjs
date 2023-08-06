@@ -13,18 +13,28 @@ export class OutputParserService {
   public readonly parserSchema =
     StructuredOutputParser.fromZodSchema(AiAnswerSchema);
 
+  public readonly extractParseSchema =
+    StructuredOutputParser.fromZodSchema(AiExtractSchema);
   get parserSchemaDescription() {
     return this.parserSchema.getFormatInstructions();
   }
 
-  get prompt() {
-    return new PromptTemplate({
-      template:
-        'Answer the users question as best as possible.\n{schema}\n{input}',
-      inputVariables: ['input'],
-      partialVariables: { schema: this.parserSchemaDescription },
-    });
-  }
+  extractPrompt = new PromptTemplate({
+    template: `Answer the users question as best as possible.\n{schema}\n<context>{input}</context>`,
+    inputVariables: ['input'],
+    partialVariables: {
+      schema: this.extractParseSchema.getFormatInstructions(),
+    },
+    outputParser: this.extractParseSchema,
+  });
+
+  prompt = new PromptTemplate({
+    template:
+      'Answer the users question as best as possible.\n{schema}\n{input}',
+    inputVariables: ['input'],
+    partialVariables: { schema: this.parserSchemaDescription },
+    outputParser: this.parserSchema,
+  });
 
   public async fixer(model: BaseLanguageModel, output: string) {
     const fixer = OutputFixingParser.fromLLM(model, this.parserSchema);

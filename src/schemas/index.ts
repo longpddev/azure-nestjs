@@ -14,26 +14,28 @@ export const AiAnswerSchema = z
   })
   .describe('Each attribute is independent and unrelated to each other');
 
-export const AiExtractSchema = z.object({
-  keywords: z
-    .array(z.string().describe('keyword in context'))
-    .describe('array of keywords'),
-  summarize: z.string().describe('summarize context'),
-  topics: z
-    .array(z.string().describe('topic in context'))
-    .describe('array of topics in context'),
-  suggests: z.array(
-    z
-      .object({
-        question: z
-          .string()
-          .nonempty()
-          .describe('Questions should be specific and not too general'),
-        topic: z.string().describe('topic this question relative to'),
-      })
-      .describe('array of suggest question base on context'),
-  ),
-  generalTakeaways: z.string().describe('General takeaways of context'),
-});
+export const AiExtractSchema = z
+  .object({
+    keywords: z
+      .array(z.string().describe('keyword in context'))
+      .describe('array of keywords'),
+    summarize: z.string().describe('summarize context'),
+    topics: z
+      .array(z.string().describe('topic in context'))
+      .describe('array of topics in context'),
+    suggests: z.array(
+      z
+        .object({
+          question: z
+            .string()
+            .nonempty()
+            .describe('Questions should be specific and not too general'),
+          topic: z.string().describe('topic this question relative to'),
+        })
+        .describe('array of suggest question base on context'),
+    ),
+    generalTakeaways: z.string().describe('General takeaways of context'),
+  })
+  .describe('Each attribute is independent and unrelated to each other');
 
 export type IAiAnswer = z.infer<typeof AiAnswerSchema>;

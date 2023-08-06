@@ -1,12 +1,14 @@
 import {
+  Body,
   Controller,
   Get,
   NotAcceptableException,
-  Param,
+  Post,
   Query,
 } from '@nestjs/common';
 import { OpenAiService } from './open-ai.service';
 import { OutputParserService } from '../output-parser/output-parser.service';
+import { ExtractDocsDto } from './dto/open-ai.dto';
 
 @Controller('open-ai')
 export class OpenAiController {
@@ -22,11 +24,16 @@ export class OpenAiController {
     const answer = airesponse.answer;
     let extract;
     if (answer) {
-      extract = await this.outputParse.extract(this.aiService.model, answer);
+      // extract = await this.outputParse.extract(this.aiService.model, answer);
     }
     return {
       ...airesponse,
       ...extract,
     };
+  }
+
+  @Post('/extract')
+  async extract(@Body() body: ExtractDocsDto) {
+    return await this.aiService.extract(body.docs);
   }
 }
