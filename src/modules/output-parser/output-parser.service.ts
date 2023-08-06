@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LLMChain, PromptTemplate } from 'langchain';
-import { BaseLanguageModel } from 'langchain/dist/base_language';
+import { BaseLanguageModel } from 'langchain/base_language';
+import { ConsoleCallbackHandler } from 'langchain/callbacks';
 import {
   OutputFixingParser,
   StructuredOutputParser,
@@ -31,6 +32,7 @@ export class OutputParserService {
   }
 
   public async extract(model: BaseLanguageModel, docs: string) {
+    console.time('extracting');
     const outputParse = StructuredOutputParser.fromZodSchema(AiExtractSchema);
     const prompt = new PromptTemplate({
       template: `Answer by follow: {schema}\nContext: {input}`,
@@ -44,6 +46,17 @@ export class OutputParserService {
 
     const result = await llm.call({ input: docs });
     const fixer = OutputFixingParser.fromLLM(model, outputParse);
-    return await fixer.parse(result.text);
+    try {
+      const data = await outputParse.parse(result.text);
+      return data;
+    } catch (e) {
+      console.error(e);
+      const data = await fixer.parse(result.text, [
+        new ConsoleCallbackHandler(),
+      ]);
+      return data;
+    } finally {
+      console.timeEnd('extracting');
+    }
   }
 }
