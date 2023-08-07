@@ -18,7 +18,7 @@ interface ModalAskStore {
 }
 
 const useModalAsk = create<ModalAskStore>((set, get) => ({
-  open: true,
+  open: false,
   status: 'initialized',
   cache: new Map(),
   ask: 'What is LangChain?',

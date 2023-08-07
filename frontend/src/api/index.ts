@@ -30,9 +30,7 @@ export async function callAi(template: string, data: Record<string, string>) {
 
 export async function simpleExplain (docs: string) {
   const result = await client.post<{ result: string }>('/open-ai/simple-explain', {
-    data: {
-      docs
-    }
+    docs
   })
 
   return result.data.result

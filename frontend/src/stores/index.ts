@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import {AppStatus} from '../constants'
 import {OpenAIExtractDocs} from '../api/interface'
-import {extract} from '../api'
+import {extract, simpleExplain} from '../api'
 
 const FAKE_DATA = {
   "keywords": [
@@ -17,6 +17,7 @@ const FAKE_DATA = {
       "specific tasks"
   ],
   "summarize": "LangChain provides a framework for developing applications powered by language models, with a focus on data-awareness and agency. It offers components for working with language models and pre-built chains for specific tasks.",
+  "explain": "LangChain provides a framework for developing applications powered by language models, with a focus on data-awareness and agency. It offers components for working with language models and pre-built chains for specific tasks.",
   "topics": [
       "LangChain",
       "framework",
@@ -59,10 +60,14 @@ const FAKE_DATA = {
 
 const FAKE_DOCS = 'LangChain provides a framework for developing applications powered by language models, with a focus on data-awareness and agency. It offers components for working with language models and pre-built chains for specific tasks.'
 
+
+interface DocExtract extends OpenAIExtractDocs {
+  explain: string
+}
 interface Store {
   docs: string,
   status: AppStatus,
-  docExtract?: OpenAIExtractDocs,
+  docExtract?: DocExtract,
   setDocs: (str: string) => void,
   extractDocs: () => Promise<void>
 }
@@ -78,8 +83,12 @@ export const useStore = create<Store>((set, get) => ({
     if(docsTrim.length === 0) throw new Error('docs empty')
     set({ status: 'loading'})
     try {
-      const result = await extract(docsTrim)
-      set({ docExtract: result, status: 'loaded'})
+      const [result, explain] = await Promise.all([
+        extract(docsTrim),
+        simpleExplain(docsTrim)
+      ])
+      
+      set({ docExtract: {...result, explain}, status: 'loaded'})
     } catch(e) {
       console.error(e)
       set({ status: 'error'})

@@ -19,7 +19,9 @@ export const AiExtractSchema = z
     keywords: z
       .array(z.string().describe('keyword in context'))
       .describe('array of keywords'),
-    summarize: z.string().describe('summarize context'),
+    summarize: z
+      .string()
+      .describe('summarize and condense the given context with 10 - 60 words.'),
     topics: z
       .array(z.string().describe('topic in context'))
       .describe('array of topics in context'),

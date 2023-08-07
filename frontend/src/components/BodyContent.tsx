@@ -12,13 +12,8 @@ const BodyContent = () => {
       </Card>
     </Col>
     <Col span={12}>
-      <Card title="Question Suggestion">
-      <div className='flex gap-y-1 flex-wrap'>{extracted.suggests.map((item, index) => (
-          <Tag key={index}>
-            <span>{item.question}</span>{' '}
-            <span className='text-blue-800' title='topics'>{item.topic}</span>
-          </Tag>
-        ))}</div>
+      <Card title="Explain">
+        {extracted.explain}
       </Card>
     </Col>
     <Col >
@@ -37,6 +32,16 @@ const BodyContent = () => {
       <Card title="Topics">
       <div className='flex gap-y-1 flex-wrap'>{extracted.topics.map((item, index) => (
           <Tag key={index}>{item}</Tag>
+        ))}</div>
+      </Card>
+    </Col>
+    <Col span={12}>
+      <Card title="Question Suggestion">
+      <div className='flex gap-y-1 flex-wrap'>{extracted.suggests.map((item, index) => (
+          <Tag key={index}>
+            <span>{item.question}</span>{' '}
+            <span className='text-blue-800' title='topics'>{item.topic}</span>
+          </Tag>
         ))}</div>
       </Card>
     </Col>
