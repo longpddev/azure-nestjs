@@ -85,8 +85,8 @@ const ModalAsk = () => {
         </div>
         <Card className="mt-4 markdown">
           <ReactMarkdown >
-            {/* {answer ?? ''} */}
-            {"- LangChain is a blockchain-based platform for language learning.\n- It aims to connect language learners with native speakers through a decentralized network.\n- The platform utilizes smart contracts to facilitate secure and transparent transactions.\n- LangChain offers various features such as language exchange, tutoring services, and language proficiency tests.\n- It also incorporates gamification elements to make language learning more engaging and enjoyable.\n- Overall, LangChain provides a decentralized and efficient solution for language learners and tutors."}
+            {answer ?? ''}
+            
           </ReactMarkdown>
         </Card>
       </Modal>
