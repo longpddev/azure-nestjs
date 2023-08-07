@@ -2,6 +2,7 @@ import React from 'react';
 import MainInput from './components/MainInput';
 import BodyContent from './components/BodyContent';
 import Overlay from './components/Overlay';
+import ModalAsk from './components/ModalAsk';
 
 
 const App: React.FC = () => {
@@ -11,6 +12,7 @@ const App: React.FC = () => {
       <MainInput />
       <BodyContent />
       <Overlay />
+      <ModalAsk />
     </>
   );
 };

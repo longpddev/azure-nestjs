@@ -21,10 +21,8 @@ export async function extract(docs: string) {
 
 export async function callAi(template: string, data: Record<string, string>) {
   const result = await client.post<{ result: string }>('/open-ai/call-ai', {
-    data: {
-      template,
-      keyValuePair: data
-    }
+    template,
+    keyValuePair: Object.entries(data).map(([key, value]) => ({key, value}))
   })
 
   return result.data.result

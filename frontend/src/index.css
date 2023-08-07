@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.markdown ul {
+  list-style: disc;
+  list-style-position: inside;
+}
