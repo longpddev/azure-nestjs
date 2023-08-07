@@ -1,4 +1,3 @@
-import React from 'react'
 import {useStore} from '../stores'
 import {Card, Col, Row, Tag} from 'antd'
 

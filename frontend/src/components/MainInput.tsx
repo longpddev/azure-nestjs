@@ -1,4 +1,3 @@
-import React from 'react';
 import { Col, Input, Row } from 'antd';
 import {useStore} from '../stores';
 import {countWords} from '../utils';
