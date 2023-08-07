@@ -25,7 +25,7 @@ export class PromptTemplateService {
     ),
   });
   public readonly extract = new PromptTemplate({
-    template: `Answer the users question as best as possible.\n{schema}\n<context>{input}</context>`,
+    template: `Extract information in side context by follow JSON schema below.\n{schema}\n------CONTEXT------\n{input}`,
     inputVariables: ['input'],
     partialVariables: {
       schema: this.extractSchema.getFormatInstructions(),

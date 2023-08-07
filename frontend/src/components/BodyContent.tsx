@@ -8,12 +8,12 @@ const BodyContent = () => {
   return (
     <Row gutter={[16, 16]} className='p-6 '>
     <Col span={12}>
-      <Card title="Summarize" bordered={false}>
+      <Card title="Summarize">
         {extracted.summarize}
       </Card>
     </Col>
     <Col span={12}>
-      <Card title="Question Suggestion" bordered={false}>
+      <Card title="Question Suggestion">
       <div className='flex gap-y-1 flex-wrap'>{extracted.suggests.map((item, index) => (
           <Tag key={index}>
             <span>{item.question}</span>{' '}
@@ -23,19 +23,19 @@ const BodyContent = () => {
       </Card>
     </Col>
     <Col >
-      <Card title="General Takeaways" bordered={false}>
+      <Card title="General Takeaways">
         {extracted.generalTakeaways}
       </Card>
     </Col>
     <Col span={12}>
-      <Card title="Keywords" className='' bordered={false}>
+      <Card title="Keywords" className=''>
         <div className='flex gap-y-1 flex-wrap'>{extracted.keywords.map((item, index) => (
           <Tag key={index}>{item}</Tag>
         ))}</div>
       </Card>
     </Col>
     <Col span={12}>
-      <Card title="Topics" bordered={false}>
+      <Card title="Topics">
       <div className='flex gap-y-1 flex-wrap'>{extracted.topics.map((item, index) => (
           <Tag key={index}>{item}</Tag>
         ))}</div>

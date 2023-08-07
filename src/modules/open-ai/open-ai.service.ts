@@ -93,14 +93,8 @@ export class OpenAiService {
       llm: this.model.openai,
       prompt: this.prompt.extract,
     });
-    const [result, explainAsIAmFive] = await Promise.all([
-      llm.call({ input: docs }),
-      this.explainAsIAmFive(docs),
-    ]);
-    console.log(
-      '🚀 ~ file: open-ai.service.ts:81 ~ OpenAiService ~ extract ~ result:',
-      result,
-    );
+    const result = await llm.call({ input: docs });
+
     console.timeEnd('extracting');
     return result.text;
   }

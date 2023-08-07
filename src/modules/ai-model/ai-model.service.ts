@@ -5,6 +5,7 @@ import { ChatOpenAI } from 'langchain/chat_models/openai';
 export class AiModelService {
   public readonly openai = new ChatOpenAI({
     temperature: 0,
-    maxConcurrency: 5,
+    maxConcurrency: 10,
+    timeout: 60000,
   });
 }
