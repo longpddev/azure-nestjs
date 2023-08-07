@@ -27,6 +27,7 @@ const useModalAsk = create<ModalAskStore>((set, get) => ({
     if(cache.has(ask)) return cache.get(ask) as string;
     const result = await callAi('Answer the question below using the advanced markup format for list important points and highlight keywords. You must answer around 20 - 70 words.\n{input}', {input: ask});
     cache.set(ask, result);
+    set({ cache })
     return result;
   },
   askAI: async () => {
