@@ -9,7 +9,9 @@ console.log('process.env.NODE_ENV 123', process.env.NODE_ENV);
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:5173',
+  });
   app.useStaticAssets(join(__dirname, '..', 'frontend/dist/assets/'), {
     prefix: '/assets/',
   });

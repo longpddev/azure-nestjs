@@ -8,19 +8,18 @@ import {
 import { z } from 'zod';
 import { OutputParserService } from '../output-parser/output-parser.service';
 import { BufferMemory, ChatMessageHistory } from 'langchain/memory';
-import { LLMChain } from 'langchain';
+import { LLMChain, PromptTemplate } from 'langchain';
 import { AiToolsService } from '../ai-tools/ai-tools.service';
-import { ConsoleCallbackHandler } from 'langchain/callbacks';
+import { PromptTemplateService } from '../prompt-template/prompt-template.service';
+import { ChainValues } from 'langchain/dist/schema';
+import { AiModelService } from '../ai-model/ai-model.service';
 @Injectable()
 export class OpenAiService {
   constructor(
-    private readonly outputParse: OutputParserService,
     private readonly tools: AiToolsService,
+    private readonly prompt: PromptTemplateService,
+    private readonly model: AiModelService,
   ) {}
-  private _model = new ChatOpenAI({
-    temperature: 0,
-    maxConcurrency: 3,
-  });
 
   private _memory = new BufferMemory({
     memoryKey: 'chat_history',
@@ -29,14 +28,9 @@ export class OpenAiService {
     outputKey: 'output',
   });
 
-  private _llm = new LLMChain({
-    llm: this._model,
-    prompt: this.outputParse.prompt,
-  });
-
   private chatAgent = initializeAgentExecutorWithOptions(
     this.tools.tools,
-    this.model,
+    this.model.openai,
     {
       agentType: 'chat-zero-shot-react-description',
       returnIntermediateSteps: true,
@@ -45,24 +39,26 @@ export class OpenAiService {
 
   private completeAgent = initializeAgentExecutorWithOptions(
     this.tools.tools,
-    this.model,
+    this.model.openai,
     {
       agentType: 'zero-shot-react-description',
       returnIntermediateSteps: true,
     },
   );
 
-  get model() {
-    return this._model;
-  }
-
   public async ask(question: string) {
+    const llm = new LLMChain({
+      llm: this.model.openai,
+      prompt: this.prompt.answer,
+    });
+
+    return await llm.predict({ input: question });
     console.log(
       '🚀 ~ file: open-ai.service.ts:39 ~ OpenAiService ~ ask ~ question:',
       question,
     );
 
-    const input = await this.outputParse.prompt.format({ input: question });
+    const input = await this.prompt.answer.format({ input: question });
     console.log(
       '🚀 ~ file: open-ai.service.ts:66 ~ OpenAiService ~ ask ~ input:',
       input,
@@ -77,22 +73,29 @@ export class OpenAiService {
       result,
     );
 
-    return await this.outputParse.parserSchema.parse(result.output);
-    // return await this.outputParse.fixer(this._model, result.text);
+    return await this.prompt.answerSchema.parse(result.output);
+  }
+
+  public async call(template: string, data: ChainValues) {
+    const prompt = PromptTemplate.fromTemplate(template);
+
+    const llm = new LLMChain({
+      llm: this.model.openai,
+      prompt,
+    });
+
+    return await llm.predict(data);
   }
 
   public async extract(docs: string) {
-    console.log(
-      '🚀 ~ file: open-ai.service.ts:85 ~ OpenAiService ~ extract ~ docs:',
-      docs,
-    );
     console.time('extracting');
     const llm = new LLMChain({
-      llm: this.model,
-      prompt: this.outputParse.extractPrompt,
+      llm: this.model.openai,
+      prompt: this.prompt.extract,
     });
-    const result = await llm.call({ input: docs }, [
-      new ConsoleCallbackHandler(),
+    const [result, explainAsIAmFive] = await Promise.all([
+      llm.call({ input: docs }),
+      this.explainAsIAmFive(docs),
     ]);
     console.log(
       '🚀 ~ file: open-ai.service.ts:81 ~ OpenAiService ~ extract ~ result:',
@@ -100,21 +103,16 @@ export class OpenAiService {
     );
     console.timeEnd('extracting');
     return result.text;
-    const fixer = OutputFixingParser.fromLLM(
-      this.model,
-      this.outputParse.extractParseSchema,
-    );
-    try {
-      const data = await this.outputParse.extractParseSchema.parse(result.text);
-      return data;
-    } catch (e) {
-      console.error(e);
-      const data = await fixer.parse(result.text, [
-        new ConsoleCallbackHandler(),
-      ]);
-      return data;
-    } finally {
-      console.timeEnd('extracting');
-    }
+  }
+
+  public async explainAsIAmFive(docs: string) {
+    const llm = new LLMChain({
+      llm: this.model.openai,
+      prompt: PromptTemplate.fromTemplate(
+        `Explain docs below as I'm five:\n{input}`,
+      ),
+    });
+
+    return await llm.predict({ input: docs });
   }
 }
