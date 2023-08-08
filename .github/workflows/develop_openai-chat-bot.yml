@@ -29,7 +29,8 @@ jobs:
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          echo "$GITHUB_ENV"
+          echo "path: $GITHUB_ENV"
+          echo "{OPEN_AI_KEY}={env.OPEN_AI_KEY}"
           echo "{OPEN_AI_KEY}={env.OPEN_AI_KEY}" >> "$GITHUB_ENV"
           echo "{SERPAPI_API_KEY}={env.SERPAPI_API_KEY}" >> "$GITHUB_ENV"
           echo "{AI21_API_KEY}={env.AI21_API_KEY}" >> "$GITHUB_ENV"
