@@ -29,6 +29,14 @@ jobs:
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          echo "{OPEN_AI_KEY}={env.OPEN_AI_KEY}" >> "$GITHUB_ENV"
+          echo "{SERPAPI_API_KEY}={env.SERPAPI_API_KEY}" >> "$GITHUB_ENV"
+          echo "{AI21_API_KEY}={env.AI21_API_KEY}" >> "$GITHUB_ENV"
+          echo "{HUGGINGFACEHUB_API_KEY}={env.HUGGINGFACEHUB_API_KEY}" >> "$GITHUB_ENV"
+          echo "{AZURE_OPENAI_API_DEPLOYMENT_NAME}={env.AZURE_OPENAI_API_DEPLOYMENT_NAME}" >> "$GITHUB_ENV"
+          echo "{AZURE_OPENAI_API_VERSION}={env.AZURE_OPENAI_API_VERSION}" >> "$GITHUB_ENV"
+          echo "{AZURE_OPENAI_API_KEY}={env.AZURE_OPENAI_API_KEY}" >> "$GITHUB_ENV"
+          echo "{AZURE_OPENAI_BASE_PATH}={env.AZURE_OPENAI_BASE_PATH}" >> "$GITHUB_ENV"
           npm install
           npm run build --if-present
           npm run test --if-present
