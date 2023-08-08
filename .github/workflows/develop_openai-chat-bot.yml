@@ -21,6 +21,7 @@ env:
   AZURE_OPENAI_API_KEY: ${{vars.AZURE_OPENAI_API_KEY}}
   AZURE_OPENAI_BASE_PATH: ${{vars.AZURE_OPENAI_BASE_PATH}}
   env_var: ${{ vars.ENV_CONTEXT_VAR }}
+  GITHUB_ACTION: ${{ vars.GITHUB_ACTION }}
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -39,14 +40,14 @@ jobs:
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           echo "OPEN_AI_KEY=${{env.OPEN_AI_KEY}}"
-          echo "OPEN_AI_KEY={env.OPEN_AI_KEY}" >> "./.env"
-          echo "SERPAPI_API_KEY={env.SERPAPI_API_KEY}" >>  "./.env"
-          echo "AI21_API_KEY={env.AI21_API_KEY}" >>  "./.env"
-          echo "HUGGINGFACEHUB_API_KEY={env.HUGGINGFACEHUB_API_KEY}" >>  "./.env"
-          echo "AZURE_OPENAI_API_DEPLOYMENT_NAME={env.AZURE_OPENAI_API_DEPLOYMENT_NAME}" >>  "./.env"
-          echo "AZURE_OPENAI_API_VERSION={env.AZURE_OPENAI_API_VERSION}" >>  "./.env"
-          echo "AZURE_OPENAI_API_KEY={env.AZURE_OPENAI_API_KEY}" >>  "./.env"
-          echo "AZURE_OPENAI_BASE_PATH={env.AZURE_OPENAI_BASE_PATH}" >>  "./.env"
+          echo "OPEN_AI_KEY=${{env.OPEN_AI_KEY}}" >> "./.env"
+          echo "SERPAPI_API_KEY=${{env.SERPAPI_API_KEY}}" >>  "./.env"
+          echo "AI21_API_KEY=${{env.AI21_API_KEY}}" >>  "./.env"
+          echo "HUGGINGFACEHUB_API_KEY=${{env.HUGGINGFACEHUB_API_KEY}}" >>  "./.env"
+          echo "AZURE_OPENAI_API_DEPLOYMENT_NAME=${{env.AZURE_OPENAI_API_DEPLOYMENT_NAME}}" >>  "./.env"
+          echo "AZURE_OPENAI_API_VERSION=${{env.AZURE_OPENAI_API_VERSION}}" >>  "./.env"
+          echo "AZURE_OPENAI_API_KEY=${{env.AZURE_OPENAI_API_KEY}}" >>  "./.env"
+          echo "AZURE_OPENAI_BASE_PATH=${{env.AZURE_OPENAI_BASE_PATH}}" >>  "./.env"
           ls -la
           npm install
           npm run build --if-present
