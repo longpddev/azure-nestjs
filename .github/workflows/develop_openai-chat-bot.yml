@@ -37,6 +37,7 @@ jobs:
           echo "{AZURE_OPENAI_API_VERSION}={env.AZURE_OPENAI_API_VERSION}" >> "$GITHUB_ENV"
           echo "{AZURE_OPENAI_API_KEY}={env.AZURE_OPENAI_API_KEY}" >> "$GITHUB_ENV"
           echo "{AZURE_OPENAI_BASE_PATH}={env.AZURE_OPENAI_BASE_PATH}" >> "$GITHUB_ENV"
+          ls -la
           npm install
           npm run build --if-present
           npm run test --if-present
