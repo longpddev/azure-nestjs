@@ -12,20 +12,21 @@ on:
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '18.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
-  OPEN_AI_KEY: ${{vars.OPEN_AI_KEY}}
-  SERPAPI_API_KEY: ${{vars.SERPAPI_API_KEY}}
-  AI21_API_KEY: ${{vars.AI21_API_KEY}}
-  HUGGINGFACEHUB_API_KEY: ${{vars.HUGGINGFACEHUB_API_KEY}}
-  AZURE_OPENAI_API_DEPLOYMENT_NAME: ${{vars.AZURE_OPENAI_API_DEPLOYMENT_NAME}}
-  AZURE_OPENAI_API_VERSION: ${{vars.AZURE_OPENAI_API_VERSION}}
-  AZURE_OPENAI_API_KEY: ${{vars.AZURE_OPENAI_API_KEY}}
-  AZURE_OPENAI_BASE_PATH: ${{vars.AZURE_OPENAI_BASE_PATH}}
-  env_var: ${{ vars.ENV_CONTEXT_VAR }}
-  GITHUB_ACTION: ${{ vars.GITHUB_ACTION }}
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: ${{ vars.ENVIRONMENT_STAGE }}
+    environment: build-and-deploy
+    env:
+      OPEN_AI_KEY: ${{ vars.OPEN_AI_KEY}}
+      SERPAPI_API_KEY: ${{ vars.SERPAPI_API_KEY}}
+      AI21_API_KEY: ${{ vars.AI21_API_KEY}}
+      HUGGINGFACEHUB_API_KEY: ${{ vars.HUGGINGFACEHUB_API_KEY}}
+      AZURE_OPENAI_API_DEPLOYMENT_NAME: ${{ vars.AZURE_OPENAI_API_DEPLOYMENT_NAME}}
+      AZURE_OPENAI_API_VERSION: ${{ vars.AZURE_OPENAI_API_VERSION}}
+      AZURE_OPENAI_API_KEY: ${{ vars.AZURE_OPENAI_API_KEY}}
+      AZURE_OPENAI_BASE_PATH: ${{ vars.AZURE_OPENAI_BASE_PATH}}
+      env_var: ${{ vars.ENV_CONTEXT_VAR }}
+      GITHUB_ACTION: ${{ vars.GITHUB_ACTION }}
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v2
