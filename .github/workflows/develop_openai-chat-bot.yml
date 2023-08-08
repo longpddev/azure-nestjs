@@ -23,6 +23,7 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: ${{ vars.ENVIRONMENT_STAGE }}
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v2
