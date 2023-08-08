@@ -1,17 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { initializeAgentExecutorWithOptions } from 'langchain/agents';
-import {
-  StructuredOutputParser,
-  OutputFixingParser,
-} from 'langchain/output_parsers';
-import { z } from 'zod';
-import { OutputParserService } from '../output-parser/output-parser.service';
-import { BufferMemory, ChatMessageHistory } from 'langchain/memory';
-import { LLMChain, PromptTemplate } from 'langchain';
+import { BufferMemory } from 'langchain/memory';
+import { LLMChain } from 'langchain/chains';
+import { PromptTemplate } from 'langchain/prompts';
 import { AiToolsService } from '../ai-tools/ai-tools.service';
 import { PromptTemplateService } from '../prompt-template/prompt-template.service';
-import { ChainValues } from 'langchain/dist/schema';
+import { ChainValues } from 'langchain/schema';
 import { AiModelService } from '../ai-model/ai-model.service';
 @Injectable()
 export class OpenAiService {

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { PromptTemplate } from 'langchain';
+import { PromptTemplate } from 'langchain/prompts';
 import {
   OutputFixingParser,
   StructuredOutputParser,
 } from 'langchain/output_parsers';
-import { AiAnswerSchema, AiExtractSchema } from 'src/schemas';
+import { AiAnswerSchema, AiExtractSchema } from '../../schemas';
 import { AiModelService } from '../ai-model/ai-model.service';
 
 @Injectable()

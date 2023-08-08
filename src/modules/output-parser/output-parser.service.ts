@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { LLMChain, PromptTemplate } from 'langchain';
+import { LLMChain } from 'langchain/chains';
+import { PromptTemplate } from 'langchain/prompts';
 import { BaseLanguageModel } from 'langchain/base_language';
 import { ConsoleCallbackHandler } from 'langchain/callbacks';
 import {
   OutputFixingParser,
   StructuredOutputParser,
 } from 'langchain/output_parsers';
-import { AiAnswerSchema, AiExtractSchema } from 'src/schemas';
-import { z } from 'zod';
+import { AiAnswerSchema, AiExtractSchema } from '../../schemas';
 @Injectable()
 export class OutputParserService {
   public readonly parserSchema =
