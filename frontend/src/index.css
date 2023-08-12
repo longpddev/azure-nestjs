@@ -2,7 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.markdown p {
+  margin-bottom: 10px;
+}
+
 .markdown ul {
   list-style: disc;
-  padding-left: 14px;
+  padding-left: 23px;
+}
+
+.markdown ol {
+  list-style: decimal;
+  padding-left: 23px;
 }
