@@ -57,6 +57,7 @@ const ModalAsk = () => {
       const code = ev.code;
       console.log("🚀 ~ file: ModalAsk.tsx:25 ~ handle ~ code:", code)
       const command = ev.metaKey
+      const ctrl = ev.ctrlKey
       // const shift = ev.shiftKey
       // const alt = ev.altKey
       switch (code) {
@@ -64,7 +65,7 @@ const ModalAsk = () => {
           setOpen(false)
           break;
         case "Enter":
-          if(command) {
+          if(ctrl) {
             ev.preventDefault();
             setOpen(true)
           }
@@ -117,13 +118,13 @@ const ModalAsk = () => {
           </Button>
 
         </div>
-        <Card className="mt-4 markdown">
+        <Card className="mt-4">
           <Markdown >
             {answer ?? ''}
           </Markdown>
         </Card>
       </Modal>
-      <Tooltip title="search" className="fixed bottom-10 right-10 z-10 flex items-center justify-center">
+      <Tooltip title="Ask me (ctrl + enter)" className="fixed bottom-10 right-10 z-10 flex items-center justify-center">
         <Button shape="circle" onClick={() => setOpen(!open)} icon={<SearchOutlined />} />
       </Tooltip>
     </>
