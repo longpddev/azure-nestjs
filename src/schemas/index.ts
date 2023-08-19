@@ -30,11 +30,12 @@ export const AiExtractSchema = z
         .object({
           question: z
             .string()
-            .nonempty()
-            .describe('Questions should be specific and not too general'),
-          topic: z.string().describe('topic this question relative to'),
+            .describe('Should be wise question and not too general'),
+          topic: z.string().describe('topic of this wise question relative to'),
         })
-        .describe('array of suggest question base on context'),
+        .describe(
+          'Array of wise question. Wise questions often challenge assumptions, encourage critical thinking, and open up new perspectives. They can inspire introspection, spark intellectual curiosity, and promote thoughtful discussions. The exact nature of a wise question can vary depending on the context and the subject matter being explored.',
+        ),
     ),
     generalTakeaways: z.string().describe('General takeaways of context'),
   })

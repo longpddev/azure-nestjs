@@ -19,20 +19,14 @@ export class PromptTemplateService {
       'Answer the users question as best as possible.\n{schema}\n{input}',
     inputVariables: ['input'],
     partialVariables: { schema: this.answerSchema.getFormatInstructions() },
-    outputParser: OutputFixingParser.fromLLM(
-      this.model.openai,
-      this.answerSchema,
-    ),
+    outputParser: this.answerSchema,
   });
   public readonly extract = new PromptTemplate({
-    template: `Extract information in side context by follow JSON schema below.\n{schema}\n------CONTEXT------\n{input}`,
+    template: `Extract information in side context by follow JSON schema below.\n{schema}\n------CONTEXT------\n{input}\n\nYour response (JSON):`,
     inputVariables: ['input'],
     partialVariables: {
       schema: this.extractSchema.getFormatInstructions(),
     },
-    outputParser: OutputFixingParser.fromLLM(
-      this.model.openai,
-      this.extractSchema,
-    ),
+    outputParser: this.extractSchema,
   });
 }

@@ -19,3 +19,8 @@ export class CallAIDto {
   @IsArray()
   keyValuePair: KeyValuePairDto[];
 }
+
+export class AskAIDto {
+  @IsString()
+  question: string;
+}

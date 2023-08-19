@@ -1,6 +1,7 @@
 import {useStore} from '../stores'
 import {Card, Col, Row, Tag} from 'antd'
 import Markdown from './Markdown'
+import CopyOrSearch from './CopyOrSearch/CopyOrSearch'
 
 const BodyContent = () => {
   const extracted = useStore(state => state.docExtract)
@@ -31,14 +32,14 @@ const BodyContent = () => {
     <Col span={12}>
       <Card title="Keywords" className=''>
         <div className='flex gap-y-1 flex-wrap'>{extracted.keywords.map((item, index) => (
-          <Tag key={index}>{item}</Tag>
+          <Tag key={index}><CopyOrSearch>{item}</CopyOrSearch></Tag>
         ))}</div>
       </Card>
     </Col>
     <Col>
       <Card title="Topics">
       <div className='flex gap-y-1 flex-wrap'>{extracted.topics.map((item, index) => (
-          <Tag key={index}>{item}</Tag>
+          <Tag key={index}><CopyOrSearch>{item}</CopyOrSearch></Tag>
         ))}</div>
       </Card>
     </Col>
@@ -46,7 +47,7 @@ const BodyContent = () => {
       <Card title="Question Suggestion">
       <div className='flex gap-y-1 flex-wrap'>{extracted.suggests.map((item, index) => (
           <Tag key={index}>
-            <span>{item.question}</span>{' '}
+            <span><CopyOrSearch>{item.question}</CopyOrSearch></span>{' '}
             <span className='text-blue-800' title='topics'>{item.topic}</span>
           </Tag>
         ))}</div>

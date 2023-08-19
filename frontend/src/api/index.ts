@@ -28,6 +28,14 @@ export async function callAi(template: string, data: Record<string, string>) {
   return result.data.result
 }
 
+export async function askAI(question: string) {
+  const result = await client.post<{ result: string }>('/open-ai/ask-ai', {
+    question
+  })
+
+  return result.data.result
+}
+
 export async function simpleExplain (docs: string) {
   const result = await client.post<{ result: string }>('/open-ai/simple-explain', {
     docs
