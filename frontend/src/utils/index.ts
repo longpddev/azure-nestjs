@@ -4,7 +4,7 @@ export function countWords(docs: string) {
   return text.split(' ').length
 }
 
-function fallbackCopyTextToClipboard(text) {
+function fallbackCopyTextToClipboard(text: string) {
   const textArea = document.createElement("textarea");
   textArea.value = text;
   
