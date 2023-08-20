@@ -144,7 +144,7 @@ const LearnEnglish = () => {
   const { progress, question, evaluate } =
     useLearnEnglish();
   return (
-    <Row className="mt-6" gutter={[16, 16]}>
+    <Row className="mt-6 mb-10" gutter={[16, 16]}>
       <Col span={20} offset={2}>
         <Card title="Question" extra={<Control></Control>}>
           <Markdown>{question}</Markdown>

@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.ant-card {
+  @apply !text-base;
+}
 .markdown p {
   margin-bottom: 10px;
 }
