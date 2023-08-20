@@ -9,4 +9,9 @@ export class AppController {
   async getHello() {
     return this.appService.getHello();
   }
+
+  @Get('/learn-english')
+  async learnEnglish() {
+    return this.appService.getHello();
+  }
 }

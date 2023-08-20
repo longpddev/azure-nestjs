@@ -9,6 +9,7 @@ import { AiToolsModule } from './modules/ai-tools/ai-tools.module';
 import { join } from 'path';
 import { PromptTemplateModule } from './modules/prompt-template/prompt-template.module';
 import { AiModelModule } from './modules/ai-model/ai-model.module';
+import { EnglishPracticeModule } from './modules/english-practice/english-practice.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -17,6 +18,7 @@ import { AiModelModule } from './modules/ai-model/ai-model.module';
     AiToolsModule,
     PromptTemplateModule,
     AiModelModule,
+    EnglishPracticeModule,
   ],
   controllers: [AppController],
   providers: [AppService, OutputParserService],

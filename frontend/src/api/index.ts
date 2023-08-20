@@ -43,3 +43,13 @@ export async function simpleExplain (docs: string) {
 
   return result.data.result
 }
+
+export async function englishExercise() {
+  return (await client.get<string>('/english-practice/exercise')).data
+}
+
+export async function englishCheck(question: string, answer: string) {
+  return (await client.post<string>('/english-practice/evaluate', {
+    question, answer
+  })).data
+}

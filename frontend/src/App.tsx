@@ -1,20 +1,16 @@
-import React from 'react';
-import MainInput from './components/MainInput';
-import BodyContent from './components/BodyContent';
-import Overlay from './components/Overlay';
-import ModalAsk from './components/ModalAsk';
+import { createBrowserRouter } from 'react-router-dom'
+import HomePage from './pages/HomePage';
+import LearnEnglish from './pages/LearnEnglish';
 
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <HomePage />
+  },
+  {
+    path: '/learn-english',
+    element: <LearnEnglish />
+  }
+])
 
-const App: React.FC = () => {
-  return (
-    <>
-      <h1 className='text-center text-4xl font-semibold mt-4'>AI extract docs</h1>
-      <MainInput />
-      <BodyContent />
-      <Overlay />
-      <ModalAsk />
-    </>
-  );
-};
-
-export default App;
+export default router;

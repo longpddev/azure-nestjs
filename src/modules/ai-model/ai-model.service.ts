@@ -11,7 +11,7 @@ import { ChainInputs } from 'langchain/chains';
 export class AiModelService {
   constructor(private readonly tools: AiToolsService) {}
   public readonly openai = new ChatOpenAI({
-    temperature: 0,
+    temperature: 0.75,
     maxConcurrency: 10,
     timeout: 60000,
   });
