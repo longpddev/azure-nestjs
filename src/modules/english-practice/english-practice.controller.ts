@@ -37,7 +37,7 @@ export class EnglishPracticeController {
   async evaluate(@Body() body: EvaluateBodyDto) {
     return this.aiModel
       .getLLM(
-        `Exercise:\n${body.question.trim()}\nThe answer of exercise:\n{input}\n\nYou response will evaluate, for example, give advice on what is good and what is not good...:`,
+        `Writing exercise:\n${body.question.trim()}\nThe answer of exercise:\n{input}\n\nYou response will evaluate, for example, give advice on what is good and what is not good...:`,
       )
       .predict({ input: body.answer.trim() });
   }
