@@ -4,12 +4,11 @@ import {
   SendOutlined,
 } from '@ant-design/icons';
 import { Button, Card, Col, Row, Input } from 'antd';
-import React from 'react';
 import { create } from 'zustand';
 import { AppStatus } from '../constants';
 import { englishCheck, englishExercise } from '../api';
 import Markdown from '../components/Markdown/Markdown';
-import { persist, createJSONStorage } from 'zustand/middleware'
+import { persist } from 'zustand/middleware'
 
 
 interface LearnEnglishStatus {
