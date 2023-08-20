@@ -6,7 +6,7 @@ import {
 import { Button, Modal, Tooltip, Input, Card } from 'antd';
 import { useEffect, useRef } from 'react';
 import { TextAreaRef } from 'antd/es/input/TextArea';
-import Markdown from './Markdown/Markdown';
+import Markdown from './Markdown';
 import useModalAsk from '../stores/useModalAsk';
 const TextArea = Input.TextArea;
 

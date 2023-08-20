@@ -7,7 +7,7 @@ import { Button, Card, Col, Row, Input } from 'antd';
 import { create } from 'zustand';
 import { AppStatus } from '../constants';
 import { englishCheck, englishExercise } from '../api';
-import Markdown from '../components/Markdown/Markdown';
+import Markdown from '../components/Markdown';
 import { persist } from 'zustand/middleware'
 
 
