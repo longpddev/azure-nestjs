@@ -55,7 +55,7 @@ const useLearnEnglish = create(persist<LearnEnglishStore>((set, get) => ({
     try {
       const result = await englishSentenceWriting();
       setProgress({ question: 'loaded', answer: 'typing' });
-      set({ question: result });
+      set({ question: result, answer: "", evaluate: '' });
     } catch (e) {
       console.error(e);
       setProgress({ question: 'error' });
@@ -67,6 +67,7 @@ const useLearnEnglish = create(persist<LearnEnglishStore>((set, get) => ({
   checkAnswer: async () => {
     const { setProgress, ...state } = get();
     setProgress({ evaluate: 'loading', answer: 'loaded' });
+    set({ evaluate: ''})
     try {
       const result = await englishCheck(state.question, state.answer);
       setProgress({ evaluate: 'loaded' });
