@@ -14,4 +14,9 @@ export class AppController {
   async learnEnglish() {
     return this.appService.getHello();
   }
+
+  @Get('/sentence-writing')
+  async sentenceWriting() {
+    return this.appService.getHello();
+  }
 }
