@@ -48,6 +48,10 @@ export async function englishExercise() {
   return (await client.get<string>('/english-practice/exercise')).data
 }
 
+export async function englishSentenceWriting() {
+  return (await client.get<string>('/english-practice/sentence/writing')).data
+}
+
 export async function englishCheck(question: string, answer: string) {
   return (await client.post<string>('/english-practice/evaluate', {
     question, answer

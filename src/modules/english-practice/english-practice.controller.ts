@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AiModelService } from '../ai-model/ai-model.service';
 import { IsString } from 'class-validator';
+import { COMMON_VOCABULARY, ENGLISH_TENSES, randomPick } from './constant';
 class EvaluateBodyDto {
   @IsString()
   question: string;
@@ -60,5 +61,27 @@ export class EnglishPracticeController {
         `Writing exercise:\n${body.question.trim()}\nThe answer of exercise:\n{input}\n\nYou response will evaluate, for example, give advice on what is good and what is not good...:`,
       )
       .predict({ input: body.answer.trim() });
+  }
+
+  @Get('/sentence/writing')
+  async sentenceWriting() {
+    const words = Array(randomPick([1, 2, 3, 4]))
+      .fill('')
+      .map(() => `"${randomPick(COMMON_VOCABULARY)}"`);
+    const tense = randomPick(ENGLISH_TENSES);
+    return this.aiModel
+      .getLLM()
+      .run(
+        `Your will use markdown format in your response and then follow:\nYou are the teacher preparing questions for students, follow the instructions below to create a complete question. Your question must follow:\n- Students use ${
+          words.length
+        } words ${words.join(
+          ', ',
+        )} to form a complete sentence and the sentence must be in the "${tense}".\nAnd all However, you need to give some suggest on what topics to combine or fit. So that students can make good sentences.\n\nYour question (markdown format):`,
+      );
+  }
+
+  @Get('/question')
+  async question(@Query('question') question: string) {
+    return (await this.aiModel.agentTest()).run(question);
   }
 }

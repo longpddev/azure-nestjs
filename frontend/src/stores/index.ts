@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import {AppStatus} from '../constants'
 import {OpenAIExtractDocs} from '../api/interface'
 import {extract, simpleExplain} from '../api'
+import {persist} from 'zustand/middleware'
 
 const FAKE_DATA = {
   "keywords": [
@@ -72,7 +73,7 @@ interface Store {
   extractDocs: () => Promise<void>
 }
 
-export const useStore = create<Store>((set, get) => ({
+export const useStore = create(persist<Store>((set, get) => ({
   docs: FAKE_DOCS,
   status: 'initialized',
   docExtract: FAKE_DATA,
@@ -94,4 +95,6 @@ export const useStore = create<Store>((set, get) => ({
       set({ status: 'error'})
     }
   }
+}), {
+  name: 'main-store'
 }))

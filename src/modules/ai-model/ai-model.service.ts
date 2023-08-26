@@ -6,12 +6,20 @@ import { BufferMemory, ChatMessageHistory } from 'langchain/memory';
 import { ChainValues, SystemMessage } from 'langchain/schema';
 import { AiToolsService } from '../ai-tools/ai-tools.service';
 import { ChainInputs } from 'langchain/chains';
+import { DynamicStructuredTool } from 'langchain/tools';
+import { z } from 'zod';
 
 @Injectable()
 export class AiModelService {
   constructor(private readonly tools: AiToolsService) {}
   public readonly openai = new ChatOpenAI({
     temperature: 0.75,
+    maxConcurrency: 10,
+    timeout: 60000,
+  });
+
+  public readonly openaiConsistent = new ChatOpenAI({
+    temperature: 0,
     maxConcurrency: 10,
     timeout: 60000,
   });
@@ -50,6 +58,32 @@ export class AiModelService {
       this.openai,
       {
         memory: this.createMemory(systemPrompt),
+        agentType: 'openai-functions',
+      },
+    );
+  }
+
+  public async agentTest() {
+    return await initializeAgentExecutorWithOptions(
+      [
+        new DynamicStructuredTool({
+          name: 'predictUserIntent',
+          description: 'always use.',
+          returnDirect: true,
+
+          schema: z.object({
+            question: z.string().describe('user question'),
+          }),
+          func({ question }) {
+            return Promise.resolve(JSON.stringify({ question }));
+          },
+        }),
+      ],
+      this.openaiConsistent,
+      {
+        memory: this.createMemory(
+          `You are financial assistance. And you just assist financial topic. otherwise call function predictUserIntent.`,
+        ),
         agentType: 'openai-functions',
       },
     );

@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 import HomePage from './pages/HomePage';
 import LearnEnglish from './pages/LearnEnglish';
+import LearnEnglishSentence from './pages/LearnEnglishSentence';
 
 export const router = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ export const router = createBrowserRouter([
   {
     path: '/learn-english',
     element: <LearnEnglish />
+  },
+  {
+    path: '/sentence-writing',
+    element: <LearnEnglishSentence />
   }
 ])
 
