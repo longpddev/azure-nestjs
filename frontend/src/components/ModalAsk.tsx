@@ -42,7 +42,7 @@ const ModalAsk = () => {
   }, []);
 
   useEffect(() => {
-    let timer: unknown;
+    let timer: ReturnType<typeof setTimeout>;
     const textArea = ref.current?.resizableTextArea?.textArea;
     if (!textArea) return;
     if (!open) {
@@ -51,11 +51,11 @@ const ModalAsk = () => {
       timer = setTimeout(() => {
         textArea.focus();
         textArea.select();
-      }, 100) as NodeJS.Timeout;
+      }, 100);
     }
 
     return () => {
-      clearTimeout(timer as string);
+      clearTimeout(timer);
     };
   }, [open]);
   return (

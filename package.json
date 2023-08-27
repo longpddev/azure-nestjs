@@ -6,14 +6,11 @@
   "private": true,
   "license": "UNLICENSED",
   "main": "dist/main.js",
-  "workspaces": [
-    "frontend"
-  ],
   "scripts": {
     "prebuild": "rimraf dist",
-    "frontend:build": "npm run build --workspace=frontend",
+    "frontend:build": "cd frontend && npm install && npm run build",
     "build:server": "nest build",
-    "build": "yarn build:server && yarn frontend:build",
+    "build": "npm run build:server && npm run frontend:build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
