@@ -1,12 +1,27 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AiModelService } from '../ai-model/ai-model.service';
-import { IsString } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 import { COMMON_VOCABULARY, ENGLISH_TENSES, randomPick } from './constant';
+import { VocabularyRepositoryService } from '../repository/vocabulary.repository.service';
+import { Type } from 'class-transformer';
+import { LeanedRepositoryService } from '../repository/leaned.repository.service';
+import { ApiProperty } from '@nestjs/swagger';
 class EvaluateBodyDto {
+  @ApiProperty()
   @IsString()
   question: string;
+  @ApiProperty()
   @IsString()
   answer: string;
+}
+
+class SentenceAnsweredDTO extends EvaluateBodyDto {
+  @ApiProperty()
+  @IsArray()
+  @Type(() => String)
+  words: string[];
+  @IsString()
+  tense: string;
 }
 @Controller('english-practice')
 export class EnglishPracticeController {
@@ -30,7 +45,11 @@ export class EnglishPracticeController {
     return this.topics.at(Math.round(Math.random() * (this.topics.length - 1)));
   }
 
-  constructor(private readonly aiModel: AiModelService) {}
+  constructor(
+    private readonly aiModel: AiModelService,
+    private readonly vocabularyRepository: VocabularyRepositoryService,
+    private readonly leanedRepository: LeanedRepositoryService,
+  ) {}
   @Get('exercise')
   async exercise() {
     let prompt = '';
@@ -65,19 +84,50 @@ export class EnglishPracticeController {
 
   @Get('/sentence/writing')
   async sentenceWriting() {
+    const result = await this.vocabularyRepository.getAllLearned(false);
     const words = Array(randomPick([1, 2, 3, 4]))
       .fill('')
-      .map(() => `"${randomPick(COMMON_VOCABULARY)}"`);
+      .map(() => randomPick(result));
     const tense = randomPick(ENGLISH_TENSES);
-    return this.aiModel
+
+    const question = await this.aiModel
       .getLLM()
       .run(
-        `Your will use markdown format in your response and then follow:\nYou are the teacher preparing questions for students, follow the instructions below to create a complete question. Your question must follow:\n- Students use ${
-          words.length
-        } words ${words.join(
+        `You are the teacher preparing a question for students. Follow the instructions below to create a complete question:\n- Tell the Student to make complete sentences in the "${tense}" with the words ${words.join(
           ', ',
-        )} to form a complete sentence and the sentence must be in the "${tense}".\nAnd all However, you need to give some suggest on what topics to combine or fit. So that students can make good sentences.\n\nYour question (markdown format):`,
+        )}.\n\nYour question must contain 3 part:\n1. the question\n2. the guide you tell the student how to thing and break down the question.\n3. Which topic is suitable for make a good sentence.`,
       );
+
+    return {
+      question,
+      words: words.map((item) => ({
+        id: item.id,
+        word: item.name,
+        description: item.description,
+      })),
+      tense,
+    };
+  }
+
+  @Post('sentence/writing/answer')
+  async sentenceAnswered(@Body() body: SentenceAnsweredDTO) {
+    return this.leanedRepository.saveLeaned({
+      tense: body.tense,
+      question: body.question,
+      answer: body.answer,
+      vocabularies: body.words,
+      title: await this.aiModel.getLLM().predict({
+        input: `Create title by text below:\n${body.question}\n\nTitle:`,
+      }),
+    });
+  }
+
+  @Get('sentence/reset')
+  async sentenceReset() {
+    const result = await this.leanedRepository.getAll();
+    return Promise.all(
+      result.map((item) => this.leanedRepository.deleteLearned(item.id)),
+    );
   }
 
   @Get('/question')

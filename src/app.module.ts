@@ -10,6 +10,8 @@ import { join } from 'path';
 import { PromptTemplateModule } from './modules/prompt-template/prompt-template.module';
 import { AiModelModule } from './modules/ai-model/ai-model.module';
 import { EnglishPracticeModule } from './modules/english-practice/english-practice.module';
+import { RepositoryModule } from './modules/repository/repository.module';
+import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -19,6 +21,10 @@ import { EnglishPracticeModule } from './modules/english-practice/english-practi
     PromptTemplateModule,
     AiModelModule,
     EnglishPracticeModule,
+    RepositoryModule,
+    MongooseModule.forRoot(
+      'mongodb+srv://longpddev-home:kzyVxly96NtdjYvB@cluster0.sfpeoxa.mongodb.net/english-store',
+    ),
   ],
   controllers: [AppController],
   providers: [AppService, OutputParserService],

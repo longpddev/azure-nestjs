@@ -8,8 +8,10 @@ import {
 } from '@nestjs/common';
 import { PromptTemplateService } from './prompt-template.service';
 import { IsArray, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 class ParseDto {
+  @ApiProperty()
   @IsString()
   result: string;
 }
