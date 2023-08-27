@@ -23,7 +23,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     EnglishPracticeModule,
     RepositoryModule,
     MongooseModule.forRoot(
-      'mongodb+srv://longpddev-home:kzyVxly96NtdjYvB@cluster0.sfpeoxa.mongodb.net/english-store',
+      `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASS}@cluster0.sfpeoxa.mongodb.net/english-store`,
     ),
   ],
   controllers: [AppController],

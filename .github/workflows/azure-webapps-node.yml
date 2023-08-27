@@ -73,8 +73,9 @@ jobs:
     - name: Unzip project
       run: unzip deploy.zip -d . && rm -f deploy.zip
         
-    - name: Display structure of downloaded files
-      run: ls -R
+    - name: Add env
+      run: |
+        echo "${{ secrets.APP_ENV}}" >> "./.env"
 
     - name: 'Deploy to Azure WebApp'
       id: deploy-to-webapp
